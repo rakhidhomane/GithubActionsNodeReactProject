@@ -39,9 +39,7 @@ jobs:
         working-directory: frontend
         run: npm install
         
-      - name: Start frontend
-        working-directory: frontend
-        run:  npm start
+      
 
    
   backend:
