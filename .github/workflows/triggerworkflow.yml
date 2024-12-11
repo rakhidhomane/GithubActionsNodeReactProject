@@ -27,25 +27,17 @@ on:
 jobs:
   push-job:
     runs-on: ubuntu-latest
-    if: ${{ github.event_name == 'push' && github.ref_type == 'branch' }}
     steps:
       - name: Checkout Code
         uses: actions/checkout@v3
       - name: Run Task on Push
-        run: echo "Code pushed to branch: ${{ github.ref_name }}!"
-
-  tag-job:
-    runs-on: ubuntu-latest
-    if: ${{ github.event_name == 'push' && github.ref_type == 'tag' }}
-    steps:
-      - name: Checkout Code
-        uses: actions/checkout@v3
-      - name: On Tag Push
-        run: echo "A new tag was pushed: ${{ github.ref_name }}!"
+        run: |
+          echo "Code pushed to branch or tag!"
+          echo "Reference type: ${{ github.ref_type }}"
+          echo "Reference name: ${{ github.ref_name }}"
 
   pull-request-job:
     runs-on: ubuntu-latest
-    if: ${{ github.event_name == 'pull_request' }}
     steps:
       - name: Checkout Code
         uses: actions/checkout@v3
@@ -54,28 +46,24 @@ jobs:
 
   schedule-job:
     runs-on: ubuntu-latest
-    if: ${{ github.event_name == 'schedule' }}
     steps:
       - name: Scheduled Task
         run: echo "This task runs on schedule!"
 
   release-job:
     runs-on: ubuntu-latest
-    if: ${{ github.event_name == 'release' }}
     steps:
       - name: On Release Published
         run: echo "A new release was published: ${{ github.event.release.tag_name }}!"
 
   issue-job:
     runs-on: ubuntu-latest
-    if: ${{ github.event_name == 'issues' }}
     steps:
       - name: On Issue Opened
         run: echo "A new issue has been opened: ${{ github.event.issue.title }}!"
 
   manual-job:
     runs-on: ubuntu-latest
-    if: ${{ github.event_name == 'workflow_dispatch' }}
     steps:
       - name: Manual Trigger
         run: echo "Triggered manually for the environment: ${{ github.event.inputs.environment }}"
