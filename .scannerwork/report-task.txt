@@ -1,0 +1,6 @@
+projectKey=calculator-project
+serverUrl=http://127.0.0.1:9000
+serverVersion=7.9.6.41879
+dashboardUrl=http://127.0.0.1:9000/dashboard?id=calculator-project
+ceTaskId=AZJBjUZiX23tpoed0vIM
+ceTaskUrl=http://127.0.0.1:9000/api/ce/task?id=AZJBjUZiX23tpoed0vIM
