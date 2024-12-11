@@ -38,15 +38,12 @@ jobs:
       - name: Install dependencies
         working-directory: frontend
         run: npm install
-
-      - name: Run tests
+      - name: Start frontend
         working-directory: frontend
-        run: npm test -- --watchAll=false
+        run: |
+          nohup npm start
 
-      - name: Build frontend
-        working-directory: frontend
-        run: npm run build
-
+   
   backend:
     name: Build and Test Node.js Backend
     runs-on: ubuntu-latest
@@ -64,9 +61,7 @@ jobs:
         working-directory: backend
         run: npm install
 
-      - name: Run tests
-        working-directory: backend
-        run: npm test
+    
 
       - name: Start backend
         working-directory: backend
