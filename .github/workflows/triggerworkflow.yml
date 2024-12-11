@@ -42,28 +42,33 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v3
       - name: Run Task on Pull Request
-        run: echo "A pull request was created or updated against branch: ${{ github.base_ref }}!"
+        run: |
+          echo "A pull request was created or updated against branch: ${{ github.base_ref }}!"
 
   schedule-job:
     runs-on: ubuntu-latest
     steps:
       - name: Scheduled Task
-        run: echo "This task runs on schedule!"
+        run: |
+          echo "This task runs on schedule!"
 
   release-job:
     runs-on: ubuntu-latest
     steps:
       - name: On Release Published
-        run: echo "A new release was published: ${{ github.event.release.tag_name }}!"
+        run: |
+          echo "A new release was published: ${{ github.event.release.tag_name }}!"
 
   issue-job:
     runs-on: ubuntu-latest
     steps:
       - name: On Issue Opened
-        run: echo "A new issue has been opened: ${{ github.event.issue.title }}!"
+        run: |
+          echo "A new issue has been opened: ${{ github.event.issue.title }}!"
 
   manual-job:
     runs-on: ubuntu-latest
     steps:
       - name: Manual Trigger
-        run: echo "Triggered manually for the environment: ${{ github.event.inputs.environment }}"
+        run: |
+          echo "Triggered manually for the environment: ${{ github.event.inputs.environment }}"
