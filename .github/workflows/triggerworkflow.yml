@@ -26,8 +26,8 @@ on:
 
 jobs:
   push-job:
-    if: github.event_name == 'push' && github.ref_type == 'branch'
     runs-on: ubuntu-latest
+    if: ${{ github.event_name == 'push' && github.ref_type == 'branch' }}
     steps:
       - name: Checkout Code
         uses: actions/checkout@v3
@@ -35,8 +35,8 @@ jobs:
         run: echo "Code pushed to branch: ${{ github.ref_name }}!"
 
   tag-job:
-    if: github.event_name == 'push' && github.ref_type == 'tag'
     runs-on: ubuntu-latest
+    if: ${{ github.event_name == 'push' && github.ref_type == 'tag' }}
     steps:
       - name: Checkout Code
         uses: actions/checkout@v3
@@ -44,8 +44,8 @@ jobs:
         run: echo "A new tag was pushed: ${{ github.ref_name }}!"
 
   pull-request-job:
-    if: github.event_name == 'pull_request'
     runs-on: ubuntu-latest
+    if: ${{ github.event_name == 'pull_request' }}
     steps:
       - name: Checkout Code
         uses: actions/checkout@v3
@@ -53,29 +53,29 @@ jobs:
         run: echo "A pull request was created or updated against branch: ${{ github.base_ref }}!"
 
   schedule-job:
-    if: github.event_name == 'schedule'
     runs-on: ubuntu-latest
+    if: ${{ github.event_name == 'schedule' }}
     steps:
       - name: Scheduled Task
         run: echo "This task runs on schedule!"
 
   release-job:
-    if: github.event_name == 'release'
     runs-on: ubuntu-latest
+    if: ${{ github.event_name == 'release' }}
     steps:
       - name: On Release Published
         run: echo "A new release was published: ${{ github.event.release.tag_name }}!"
 
   issue-job:
-    if: github.event_name == 'issues'
     runs-on: ubuntu-latest
+    if: ${{ github.event_name == 'issues' }}
     steps:
       - name: On Issue Opened
         run: echo "A new issue has been opened: ${{ github.event.issue.title }}!"
 
   manual-job:
-    if: github.event_name == 'workflow_dispatch'
     runs-on: ubuntu-latest
+    if: ${{ github.event_name == 'workflow_dispatch' }}
     steps:
       - name: Manual Trigger
         run: echo "Triggered manually for the environment: ${{ github.event.inputs.environment }}"
