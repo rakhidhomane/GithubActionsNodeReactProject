@@ -38,10 +38,10 @@ jobs:
       - name: Install dependencies
         working-directory: frontend
         run: npm install
+        
       - name: Start frontend
         working-directory: frontend
-        run: |
-          nohup npm start
+        run:  npm start
 
    
   backend:
