@@ -37,11 +37,12 @@ jobs:
       - name: SonarQube Scanner
         env:
           SONAR_TOKEN: ${{ secrets.SONARTOKENCREDENTIALS}}
+          SONAR_Host_Url: ${{ secrets.SONARHOSTURL}}
         run: |
           npm install -g sonarqube-scanner
           sonar-scanner \
             -Dsonar.projectKey=Calculator_demo_jenkins_privateRepo \
             -Dsonar.sources=frontend,backend \
-            -Dsonar.host.url=http://127.0.0.1:9000 \
+            -Dsonar.host.url=$SONAR_Host_Url\
             -Dsonar.login=$SONAR_TOKEN \
             -Dsonar.javascript.lcov.reportPaths=frontend/coverage/lcov.info,backend/coverage/lcov.info
