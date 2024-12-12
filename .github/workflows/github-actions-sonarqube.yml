@@ -43,5 +43,5 @@ jobs:
             -Dsonar.projectKey=Calculator_demo_jenkins_privateRepo \
             -Dsonar.sources=frontend,backend \
             -Dsonar.host.url=http://127.0.0.1:9000 \
-            -Dsonar.login=$SONARTOKENCREDENTIALS \
+            -Dsonar.login=$SONAR_TOKEN \
             -Dsonar.javascript.lcov.reportPaths=frontend/coverage/lcov.info,backend/coverage/lcov.info
