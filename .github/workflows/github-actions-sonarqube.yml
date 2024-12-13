@@ -36,13 +36,13 @@ jobs:
       # Step 7: Run SonarQube Analysis
       - name: SonarQube Scanner
         env:
-          SONAR_TOKEN: ${{ secrets.SONARTOKENCREDENTIALS}}
-          SONAR_Host_Url: ${{ secrets.SONARHOSTURL}}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN}}
+          
         run: |
           npm install -g sonarqube-scanner
           sonar-scanner \
-            -Dsonar.projectKey=calculator-project \
+            -Dsonar.projectKey=rakhidhomane_GithubActionsNodeReactProject \
             -Dsonar.sources=backend,frontend/src \
-            -Dsonar.host.url=$SONAR_Host_Url\
+            -Dsonar.host.url=https://sonarcloud.io\
             -Dsonar.token=$SONAR_TOKEN \
             -Dsonar.javascript.lcov.reportPaths=frontend/coverage/lcov.info,backend/coverage/lcov.info
