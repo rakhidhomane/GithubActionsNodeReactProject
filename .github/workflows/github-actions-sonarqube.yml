@@ -40,6 +40,7 @@ jobs:
       - name: SonarQube Scanner
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN}}
+          GithubRakhi_TOKEN: ${{ secrets.GITHUBRAKHI_TOKEN}}
           
         run: |
           npm install -g sonarqube-scanner
