@@ -4,7 +4,10 @@ on:
   push:
     branches:
       - main
+
   pull_request:
+    branches:
+      - main
 
 jobs:
   sonar-analysis:
@@ -46,4 +49,5 @@ jobs:
             -Dsonar.sources=backend,frontend/src \
             -Dsonar.host.url=https://sonarcloud.io\
             -Dsonar.token=$SONAR_TOKEN \
+            -Dsonar.branch.name=${{ github.ref_name }} \
             -Dsonar.javascript.lcov.reportPaths=frontend/coverage/lcov.info,backend/coverage/lcov.info
