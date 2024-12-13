@@ -1,7 +1,4 @@
-
-
-      name: SonarCloud Analysis
-
+name: SonarCloud Analysis
 on:
   push:
     branches:
@@ -34,8 +31,6 @@ jobs:
       - name: Install Backend Dependencies
         working-directory: backend
         run: npm install
-
-
    
 
       # Step 7: Run SonarCloud Analysis
