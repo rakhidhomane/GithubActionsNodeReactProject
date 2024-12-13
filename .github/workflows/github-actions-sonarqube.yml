@@ -41,7 +41,8 @@ jobs:
         run: |
           npm install -g sonarqube-scanner
           sonar-scanner \
-            -Dsonar.projectKey=rakhidhomane_GithubActionsNodeReactProject \
+            -Dsonar.projectKey=rakhidhomane_calculator-project \
+            -Dsonar.organization=rakhidhomane_GithubActionsNodeReactProject \
             -Dsonar.sources=backend,frontend/src \
             -Dsonar.host.url=https://sonarcloud.io\
             -Dsonar.token=$SONAR_TOKEN \
