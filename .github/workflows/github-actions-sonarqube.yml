@@ -1,54 +1,55 @@
-name: SonarQube Analysis
+
+
+      name: SonarCloud Analysis
 
 on:
   push:
     branches:
       - main
-
   pull_request:
     branches:
       - main
 
 jobs:
-  sonar-analysis:
-    runs-on: self-hosted
+  sonarcloud:
+    runs-on: ubuntu-latest
 
     steps:
-      # Step 1: Checkout code
+      # Step 1: Checkout Code
       - name: Checkout Code
         uses: actions/checkout@v3
 
-      # Step 2: Set up Node.js (for React and backend dependencies)
+      # Step 2: Set up Node.js (for dependencies and tests)
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: 18  # Match your project Node.js version
+          node-version: 18  # Adjust to your project Node.js version
 
-      # Step 3: Install dependencies for frontend
+      # Step 3: Install Frontend Dependencies
       - name: Install Frontend Dependencies
         working-directory: frontend
         run: npm install
 
-   
-
-      # Step 5: Install dependencies for backend
+      # Step 4: Install Backend Dependencies
       - name: Install Backend Dependencies
         working-directory: backend
         run: npm install
 
-      # Step 7: Run SonarQube Analysis
-      - name: SonarQube Scanner
+
+   
+
+      # Step 7: Run SonarCloud Analysis
+      - name: SonarCloud Scanner
         env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN}}
-          
-          
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: |
           npm install -g sonarqube-scanner
           sonar-scanner \
             -Dsonar.projectKey=rakhidhomane_calculator-project \
             -Dsonar.organization=rakhidhomane \
-            -Dsonar.sources=backend,frontend/src \
-            -Dsonar.host.url=https://sonarcloud.io\
+            -Dsonar.sources=frontend,backend \
+            -Dsonar.host.url=https://sonarcloud.io \
             -Dsonar.token=$SONAR_TOKEN \
             -Dsonar.branch.name=${{ github.ref_name }} \
             -Dsonar.javascript.lcov.reportPaths=frontend/coverage/lcov.info,backend/coverage/lcov.info
+      
