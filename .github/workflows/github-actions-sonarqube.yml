@@ -40,11 +40,7 @@ jobs:
         run: |
           npm install -g sonarqube-scanner
           sonar-scanner \
-            -Dsonar.projectKey=rakhidhomane_calculator-project \
-            -Dsonar.organization=rakhidhomane \
-            -Dsonar.sources=frontend,backend \
-            -Dsonar.host.url=https://sonarcloud.io \
-            -Dsonar.token=$SONAR_TOKEN \
-            -Dsonar.branch.name=${{ github.ref_name }} \
-            -Dsonar.javascript.lcov.reportPaths=frontend/coverage/lcov.info,backend/coverage/lcov.info
-      
+             -D"sonar.organization=rakhidhomane" `
+             -D"sonar.projectKey=rakhidhomane_GithubActionsNodeReactProject" `
+             -D"sonar.sources=." `
+             -D"sonar.host.url=https://sonarcloud.io"
