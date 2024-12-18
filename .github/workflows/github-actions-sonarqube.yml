@@ -40,10 +40,11 @@ jobs:
       # Step 4: Grant Permissions to Jest
       - name: Set Jest Execution Permissions
         run: chmod +x ./backend/node_modules/.bin/jest
-
-      # Step 5: Run Tests with Coverage
-      - name: Run Tests with Coverage
-        run: npx jest --coverage
+        
+      # Step 6: Run tests and generate coverage for backend
+      - name: Run Backend Tests
+        working-directory: backend
+        run: npm test -- --coverage
         env:
           CI: true
 
