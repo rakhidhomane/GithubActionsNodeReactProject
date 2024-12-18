@@ -40,7 +40,7 @@ jobs:
       # Step 6: Run tests and generate coverage for backend
       - name: Run Backend Tests
         working-directory: backend
-        run: npm test -- --coverage
+        run: npx test -- --coverage
 
       # Step 7: Run SonarCloud Analysis
       - name: SonarCloud Scanner
