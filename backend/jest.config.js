@@ -3,6 +3,6 @@ module.exports = {
   testEnvironment: "node",
   collectCoverage: true,
   coverageDirectory: "coverage",
-  roots: ["<rootDir>/backend/tests"],
+  roots: ["<rootDir>/tests"],
   moduleFileExtensions: ["js", "jsx", "ts", "tsx", "json", "node"],
 };
