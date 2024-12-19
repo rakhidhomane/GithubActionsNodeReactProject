@@ -1,6 +1,7 @@
 name: Comprehensive Event Workflow
 
 on:
+  workflow_call: 
   push:
     branches:
       - main
