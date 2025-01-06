@@ -1,4 +1,5 @@
 name: SonarCloud Analysis
+
 on:
   push:
     branches:
@@ -36,21 +37,19 @@ jobs:
       - name: Install Backend Dependencies
         working-directory: backend
         run: npm install
-        
-      # Step 4: Grant Permissions to Jest
+
+      # Step 6: Grant Permissions to Jest
       - name: Set Jest Execution Permissions
         run: chmod +x ./backend/node_modules/.bin/jest
-        
-      # Step 6: Run tests and generate coverage for backend
+
+      # Step 7: Run tests and generate coverage for backend
       - name: Run Backend Tests
         working-directory: backend
         run: npm test -- --coverage
         env:
           CI: true
 
-   
-
-      # Step 7: Run SonarCloud Analysis
+      # Step 8: Run SonarCloud Analysis
       - name: SonarCloud Scanner
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
@@ -63,8 +62,20 @@ jobs:
              -D"sonar.host.url=https://sonarcloud.io" \
              -D"sonar.javascript.lcov.reportPaths=coverage/lcov.info"
 
+      # Step 9: Check SonarCloud Quality Gate
+      - name: Check SonarCloud Quality Gate
+        id: quality-gate
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        run: |
+          STATUS=$(curl -s -u "$SONAR_TOKEN:" "https://sonarcloud.io/api/qualitygates/project_status?projectKey=rakhidhomane_GithubActionsNodeReactProject" | jq -r .projectStatus.status)
+          echo "Quality Gate Status: $STATUS"
+          if [ "$STATUS" != "OK" ]; then
+            echo "Quality Gate failed."
+            exit 1
+          fi
 
-       # Step 7: Send Slack Notification on Success
+      # Step 10: Send Slack Notification on Success
       - name: Slack Notification on Success
         if: success()
         uses: slackapi/slack-github-action@v1.24.0
@@ -74,12 +85,22 @@ jobs:
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACKWEBHOOKURL }}
 
-      # Step 8: Send Slack Notification on Failure
+      # Step 11: Send Slack Notification on Failure
       - name: Slack Notification on Failure
         if: failure()
         uses: slackapi/slack-github-action@v1.24.0
         with:
           payload: |
             {"text": "❌ *GitHub Actions Workflow Failed*\nProject: *SonarCloud Analysis*\nStatus: *FAILED*\nBranch: ${{ github.ref }}\nTriggered by: ${{ github.actor }}"}
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACKWEBHOOKURL }}
+
+      # Step 12: Send Slack Notification for Quality Gate Failure
+      - name: Slack Notification for Quality Gate Failure
+        if: failure() && steps.quality-gate.outcome == 'failure'
+        uses: slackapi/slack-github-action@v1.24.0
+        with:
+          payload: |
+            {"text": "❌ *Quality Gate Failed*\nProject: *SonarCloud Analysis*\nStatus: *FAILED*\nBranch: ${{ github.ref }}\nTriggered by: ${{ github.actor }}"}
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACKWEBHOOKURL }}
