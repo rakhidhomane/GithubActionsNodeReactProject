@@ -9,19 +9,38 @@ const app = express();
 app.use(cors());
 app.use(bodyParser.json());
 
-// Importing the operations (reuse the same logic)
+// Importing the operations (duplicated logic)
 app.post('/api/add', (req, res) => {
-    const { a, b } = req.body;  // Assuming you're sending JSON with `a` and `b`
-    const result = a + b;       // Perform addition
-    res.json({ result });        // Send the result back
+    const { a, b } = req.body;  
+    const result = a + b;       
+    res.json({ result });
 });
+
+app.post('/api/add_duplicate', (req, res) => { // Duplicated endpoint
+    const { a, b } = req.body;  
+    const result = a + b;       
+    res.json({ result });
+});
+
 app.post('/api/subtract', (req, res) => {
     const { a, b } = req.body;
     const result = a - b;
     res.json({ result });
 });
 
+app.post('/api/subtract_duplicate', (req, res) => { // Duplicated endpoint
+    const { a, b } = req.body;
+    const result = a - b;
+    res.json({ result });
+});
+
 app.post('/api/multiply', (req, res) => {
+    const { a, b } = req.body;
+    const result = a * b;
+    res.json({ result });
+});
+
+app.post('/api/multiply_duplicate', (req, res) => { // Duplicated endpoint
     const { a, b } = req.body;
     const result = a * b;
     res.json({ result });
@@ -36,6 +55,14 @@ app.post('/api/divide', (req, res) => {
     res.json({ result });
 });
 
+app.post('/api/divide_duplicate', (req, res) => { // Duplicated endpoint
+    const { a, b } = req.body;
+    if (b === 0) {
+        return res.status(400).json({ error: 'Division by zero' });
+    }
+    const result = a / b;
+    res.json({ result });
+});
 
 describe('Calculator API', () => {
     it('should add two numbers', async () => {
@@ -63,4 +90,6 @@ describe('Calculator API', () => {
         expect(res.status).toBe(400);
         expect(res.body.error).toBe('Division by zero');
     });
+
+    // Tests are not added for duplicated endpoints
 });
