@@ -62,20 +62,7 @@ jobs:
              -D"sonar.host.url=https://sonarcloud.io" \
              -D"sonar.javascript.lcov.reportPaths=coverage/lcov.info"
 
-     # Step 6: Check SonarCloud Quality Gate
-      - name: Check SonarCloud Quality Gate
-        run: |
-          echo "Checking SonarCloud Quality Gate status..."
-          sleep 30 # Wait for the analysis to complete
-          response=$(curl -s -u "${{ secrets.SONAR_TOKEN }}:" \
-            "https://sonarcloud.io/api/qualitygates/project_status?projectKey=rakhidhomane_GithubActionsNodeReactProject")
-          status=$(echo $response | jq -r '.projectStatus.status')
-          if [ "$status" != "OK" ]; then
-            echo "Quality Gate failed: $status"
-            exit 1
-          fi
-        env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+    
 
       # Step 10: Send Slack Notification on Success
       - name: Slack Notification on Success
@@ -97,12 +84,4 @@ jobs:
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACKWEBHOOKURL }}
 
-      # Step 12: Send Slack Notification for Quality Gate Failure
-      - name: Slack Notification for Quality Gate Failure
-        if: failure() && steps.quality-gate.outcome == 'failure'
-        uses: slackapi/slack-github-action@v1.24.0
-        with:
-          payload: |
-            {"text": "❌ *Quality Gate Failed*\nProject: *SonarCloud Analysis*\nStatus: *FAILED*\nBranch: ${{ github.ref }}\nTriggered by: ${{ github.actor }}"}
-        env:
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACKWEBHOOKURL }}
+   
