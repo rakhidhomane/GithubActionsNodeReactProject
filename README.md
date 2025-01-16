@@ -1,0 +1,1 @@
+[![SonarCloud Analysis](https://github.com/rakhidhomane/GithubActionsNodeReactProject/actions/workflows/github-actions-sonarqube.yml/badge.svg)](https://github.com/rakhidhomane/GithubActionsNodeReactProject/actions/workflows/github-actions-sonarqube.yml)
