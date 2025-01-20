@@ -1,4 +1,4 @@
-name: Calculator Project CI/CD
+name: Matrix uses
 
 on:
   push:
@@ -9,60 +9,39 @@ on:
       - main
 
 jobs:
-  setup:
-    name: Setup Environment
+  sonarcloud:
     runs-on: ubuntu-latest
 
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: 18 # Use a suitable Node.js version for your project
-
-  frontend:
-    name: Build and Test React Frontend
-    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [16, 18, 20] # Specify Node.js versions to test
+        service: [frontend, backend] # Specify services for matrix execution
 
     steps:
-      - name: Checkout code
+      # Step 1: Checkout Code
+      - name: Checkout Code
         uses: actions/checkout@v3
 
-      - name: Setup Node.js
+      # Step 2: Set up Node.js for each matrix combination
+      - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: 18
+          node-version: ${{ matrix.node-version }}
 
-      - name: Install dependencies
-        working-directory: frontend
+      # Step 3: Install dependencies for the current service
+      - name: Install Dependencies
+        working-directory: ${{ matrix.service }}
         run: npm install
-        
+
+      # Step 4: Run tests for the current service
+      - name: Run Tests
+        working-directory: ${{ matrix.service }}
+        run: npm test -- --coverage
+        env:
+          CI: true
+
+
+
       
 
-   
-  backend:
-    name: Build and Test Node.js Backend
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: 18
-
-      - name: Install dependencies
-        working-directory: backend
-        run: npm install
-
-    
-
-      - name: Start backend
-        working-directory: backend
-        run: |
-          nohup npm start &
-          sleep 5 # Allow the server to initialize
+      
