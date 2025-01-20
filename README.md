@@ -1,2 +1,3 @@
 [![SonarCloud Analysis](https://github.com/rakhidhomane/GithubActionsNodeReactProject/actions/workflows/github-actions-sonarqube.yml/badge.svg)](https://github.com/rakhidhomane/GithubActionsNodeReactProject/actions/workflows/github-actions-sonarqube.yml)
 [![Calculator Project CI/CD](https://github.com/rakhidhomane/GithubActionsNodeReactProject/actions/workflows/main.yml/badge.svg?branch=main)](https://github.com/rakhidhomane/GithubActionsNodeReactProject/actions/workflows/main.yml)
+[![Comprehensive Event Workflow](https://github.com/rakhidhomane/GithubActionsNodeReactProject/actions/workflows/triggerworkflow.yml/badge.svg)](https://github.com/rakhidhomane/GithubActionsNodeReactProject/actions/workflows/triggerworkflow.yml)
