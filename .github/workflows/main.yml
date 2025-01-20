@@ -1,4 +1,4 @@
-name: Matrix uses
+name: Matrix Demo
 
 on:
   push:
@@ -9,20 +9,20 @@ on:
       - main
 
 jobs:
-  sonarcloud:
+  matrix-demo:
     runs-on: ubuntu-latest
 
     strategy:
       matrix:
-        node-version: [16, 18, 20] # Specify Node.js versions to test
-        service: [frontend, backend] # Specify services for matrix execution
+        node-version: [16, 18, 20] # Test across these Node.js versions
+        service: [frontend, backend] # Test both frontend and backend services
 
     steps:
       # Step 1: Checkout Code
       - name: Checkout Code
         uses: actions/checkout@v3
 
-      # Step 2: Set up Node.js for each matrix combination
+      # Step 2: Set up Node.js
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
@@ -33,6 +33,10 @@ jobs:
         working-directory: ${{ matrix.service }}
         run: npm install
 
+       # Step 6: Grant Permissions to Jest
+      - name: Set Jest Execution Permissions
+        run: chmod +x ./backend/node_modules/.bin/jest
+
       # Step 4: Run tests for the current service
       - name: Run Tests
         working-directory: ${{ matrix.service }}
@@ -40,8 +44,3 @@ jobs:
         env:
           CI: true
 
-
-
-      
-
-      
