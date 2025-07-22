@@ -50,51 +50,14 @@ jobs:
           CI: true
 
       # Step 8: Run SonarCloud Analysis
-      - name: SonarCloud Scanner
-        env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        run: |
-          npm install -g sonarqube-scanner
-          sonar-scanner \
-             -D"sonar.organization=rakhidhomane" \
-             -D"sonar.projectKey=rakhidhomane_GithubActionsNodeReactProject" \
-             -D"sonar.sources=." \
-             -D"sonar.host.url=https://sonarcloud.io" \
-             -D"sonar.javascript.lcov.reportPaths=coverage/lcov.info"
-
-      # Step 6: Check SonarCloud Quality Gate
-      - name: Check SonarCloud Quality Gate
-        run: |
-          echo "Checking SonarCloud Quality Gate status..."
-          sleep 30 # Wait for the analysis to complete
-          response=$(curl -s -u "${{ secrets.SONAR_TOKEN }}:" \
-            "https://sonarcloud.io/api/qualitygates/project_status?projectKey=rakhidhomane_GithubActionsNodeReactProject")
-          status=$(echo $response | jq -r '.projectStatus.status')
-          if [ "$status" != "OK" ]; then
-            echo "Quality Gate failed: $status"
-            exit 1
-          fi
-        env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-
-      # Step 10: Send Slack Notification on Success
-      - name: Slack Notification on Success
-        if: success()
-        uses: slackapi/slack-github-action@v1.24.0
+      - name: SonarCloud Scan
+        uses: SonarSource/sonarcloud-github-action@v1.12
         with:
-          payload: |
-            {"text": "✅ *GitHub Actions Workflow Successful*\nProject: *SonarCloud Analysis*\nStatus: *SUCCESS*\nBranch: ${{ github.ref }}\nTriggered by: ${{ github.actor }}"}
+            organization: 'rakhidhomane'
+            projectKey: 'rakhidhomane_GithubActionsNodeReactProject'
+            projectName: 'GithubActionsNodeReactProject'
         env:
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACKWEBHOOKURL }}
+             SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
-      # Step 11: Send Slack Notification on Failure
-      - name: Slack Notification on Failure
-        if: failure()
-        uses: slackapi/slack-github-action@v1.24.0
-        with:
-          payload: |
-            {"text": "❌ *GitHub Actions Workflow Failed*\nProject: *SonarCloud Analysis*\nStatus: *FAILED*\nBranch: ${{ github.ref }}\nTriggered by: ${{ github.actor }}"}
-        env:
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACKWEBHOOKURL }}
 
    
