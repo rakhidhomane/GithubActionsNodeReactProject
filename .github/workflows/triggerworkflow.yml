@@ -10,8 +10,7 @@ on:
   pull_request:
     branches:
       - main
-  schedule:
-    - cron: "0 12 * * *"
+  
   release:
     types:
       - published
